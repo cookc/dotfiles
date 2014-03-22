@@ -19,6 +19,8 @@ alias m="mate ."
 alias s="subl ."
 alias o="open"
 alias oo="open ."
+alias qs11="cd /opt/palantir/qs/3.11.1.2"
+alias qs12="cd /opt/palantir/qs/3.12.4.1"
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
@@ -147,3 +149,14 @@ alias hax="growlnotify -a 'Activity Monitor' 'System error' -m 'WTF R U DOIN'"
 # Kill all the tabs in Chrome to free up memory
 # [C] explained: http://www.commandlinefu.com/commands/view/402/exclude-grep-from-your-grepped-output-of-ps-alias-included-in-description
 alias chromekill="ps ux | grep '[C]hrome Helper --type=renderer' | grep -v extension-process | tr -s ' ' | cut -d ' ' -f2 | xargs kill"
+
+alias java_ls='/usr/libexec/java_home -V 2>&1 | grep -E "\d.\d.\d_\d\d" | cut -d , -f 1 | colrm 1 4 | grep -v Home'
+function java_use() {
+        export JAVA_HOME=$(/usr/libexec/java_home -v $1)
+            export PATH=$JAVA_HOME/bin:$PATH
+                java -version
+}
+
+alias webserver="python -mSimpleHTTPServer"
+
+alias hlog='git log --date-order --all --graph --format="%C(green)%h %Creset%C(yellow)%an%Creset %C(blue bold)%ar%Creset %C(red bold)%d%Creset %s"'

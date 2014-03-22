@@ -2,40 +2,55 @@
 # Shamelessly copied from https://github.com/gf3/dotfiles
 # Screenshot: http://i.imgur.com/s0Blh.png
 
+IS_PRODUCTION="NO"
+
 if [[ $COLORTERM = gnome-* && $TERM = xterm ]] && infocmp gnome-256color >/dev/null 2>&1; then
 	export TERM=gnome-256color
 elif infocmp xterm-256color >/dev/null 2>&1; then
 	export TERM=xterm-256color
 fi
 
-if tput setaf 1 &> /dev/null; then
-	tput sgr0
-	if [[ $(tput colors) -ge 256 ]] 2>/dev/null; then
-		MAGENTA=$(tput setaf 9)
-		ORANGE=$(tput setaf 172)
-		GREEN=$(tput setaf 190)
-		PURPLE=$(tput setaf 141)
-		WHITE=$(tput setaf 255)
-	else
-		MAGENTA=$(tput setaf 5)
-		ORANGE=$(tput setaf 4)
-		GREEN=$(tput setaf 2)
-		PURPLE=$(tput setaf 1)
-		#WHITE=$(tput setaf 0)
-	fi
-	BOLD=$(tput bold)
-	RESET=$(tput sgr0)
-else
-	MAGENTA="\033[1;31m"
-	ORANGE="\033[1;33m"
-	GREEN="\033[1;32m"
-	PURPLE="\033[1;35m"
-	#WHITE="\033[1;37m"
-	BOLD=""
-	RESET="\033[m"
-fi
+RESET='\[\e[0m\]'       # Text Reset
+ 
+# Regular Colors
+BLACK='\[\e[0;30m\]'        # Black
+RED='\[\e[0;31m\]'          # Red
+GREEN='\[\e[0;32m\]'        # Green
+YELLOW='\[\e[0;33m\]'       # Yellow
+BLUE='\[\e[0;34m\]'         # Blue
+PURPLE='\[\e[0;35m\]'       # Purple
+CYAN='\[\e[0;36m\]'         # Cyan
+WHITE='\[\e[0;37m\]'        # White
+ 
+# Bold
+BOLD_BLACK='\[\e[1;30m\]'       # Black
+BOLD_RED='\[\e[1;31m\]'         # Red
+BOLD_GREEN='\[\e[1;32m\]'       # Green
+BOLD_YELLOW='\[\e[1;33m\]'      # Yellow
+BOLD_BLUE='\[\e[1;34m\]'        # Blue
+BOLD_PURPLE='\[\e[1;35m\]'      # Purple
+BOLD_CYAN='\[\e[1;36m\]'        # Cyan
+BOLD_WHITE='\[\e[1;37m\]'       # White
+ 
+# Background
+ON_BLACK='\[\e[40m\]'       # Black
+ON_RED='\[\e[41m\]'         # Red
+ON_GREEN='\[\e[42m\]'       # Green
+ON_YELLOW='\[\e[43m\]'      # Yellow
+ON_BLUE='\[\e[44m\]'        # Blue
+ON_PURPLE='\[\e[45m\]'      # Purple
+ON_CYAN='\[\e[46m\]'        # Cyan
+ON_WHITE='\[\e[47m\]'       # White
+ 
+WHITE_ON_GREEN="${BOLD_WHITE}${ON_GREEN}"
+WHITE_ON_RED="${BOLD_WHITE}${ON_RED}"
+WHITE_ON_BLUE="${BOLD_WHITE}${ON_BLUE}"
+WHITE_ON_BLACK="${BOLD_WHITE}${ON_BLACK}"
+BLUE_ON_WHITE="${BLUE}${ON_WHITE}"
+RED_ON_WHITE="${RED}${ON_WHITE}"
 
 export MAGENTA
+export RED
 export ORANGE
 export GREEN
 export PURPLE
@@ -51,5 +66,26 @@ function parse_git_branch() {
 	git branch --no-color 2> /dev/null | sed -e '/^[^*]/d' -e "s/* \(.*\)/\1$(parse_git_dirty)/"
 }
 
-export PS1="\[$GREEN\]\w\[$WHITE\]\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")\[$PURPLE\]\$(parse_git_branch)\[$WHITE\] \[$WHITE\]$ \[$RESET\]"
-export PS2="\[$WHITE\]→ \[$RESET\]"
+
+function set_prompt() {
+    local LAST_STATUS=$?
+    if [ $LAST_STATUS -eq 0 ]; then
+        LAST_STATUS_COLOR="$YELLOW"
+    else
+        LAST_STATUS_COLOR="$WHITE_ON_RED"
+    fi
+    if [[ "$IS_PRODUCTION" == "NO" ]]; then
+        HOST_COLOR="$WHITE_ON_BLUE"
+    else
+        HOST_COLOR="$WHITE_ON_RED"
+    fi
+ 
+    if [[ "$USER" == "root" ]]; then
+        USER_COLOR="$RED_ON_WHITE"
+    else
+        USER_COLOR="$WHITE_ON_BLUE"
+    fi
+    PS1="$USER_COLOR\u@$HOST_COLOR\h$LAST_STATUS_COLOR\w$WHITE\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")$PURPLE\$(parse_git_branch)$WHITE $WHITE$ $RESET"
+    PS2="$WHITE→ $RESET"
+}
+export PROMPT_COMMAND=set_prompt

@@ -56,6 +56,8 @@
 [merge]
 	# Include summaries of merged commits in newly created merge commit messages
 	log = true
+    tool = kdiff3
+    renamelimit = 2000
 
 # URL shorthands
 [url "git@github.com:"]
@@ -73,3 +75,10 @@
 
 [push]
 	default = matching
+[user]
+	name = Chris Cook
+	email = ccook@palantir.com
+[credential]
+	helper = osxkeychain
+[mergetool "kdiff3"]
+	path = /Applications/kdiff3.app/Contents/MacOS/kdiff3

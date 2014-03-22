@@ -1,5 +1,5 @@
 # Add `~/bin` to the `$PATH`
-export PATH="$HOME/bin:$PATH"
+export PATH="/usr/local/bin:$HOME/bin:$PATH"
 
 # Load the shell dotfiles, and then some:
 # * ~/.path can be used to extend `$PATH`.
@@ -39,3 +39,10 @@ complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes Syste
 [ -f /etc/bash_completion ] && source /etc/bash_completion
 
 export BYOBU_PREFIX=$(brew --prefix)
+
+export JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Home
+export JAVA_1_6_HOME=$JAVA_HOME
+export ANT_HOME=/usr/share/ant
+export PATH=$PATH:$JAVA_HOME/bin
+export PATH=$PATH:~/tools/trails/bin/unix
+export CATALINA_HOME=/opt/tomcat/apache-tomcat-6.0.37

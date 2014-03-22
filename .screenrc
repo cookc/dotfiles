@@ -24,10 +24,10 @@ bindkey "^[[1;6D" eval 'prev' 'fit'                     # ctrl-shift-left  | Pre
 bindkey "^[[1;6C" eval 'next' 'fit'                     # ctrl-shift-right  | Next Window
 
 
-bindkey -k k5 eval 'split' 'focus up' 'screen' 'fit'    # F5 | split horizontal
-bindkey "^[[25~" eval 'remove' 'focus up' 'fit'         # shift-F5 | close split
-bindkey -k k6 eval 'resize -1' 'fit'                    # F6 | resize up
-bindkey -k k7 eval 'resize +1' 'fit'                    # F7 | resize down
+#bindkey -k k5 eval 'split' 'focus up' 'screen' 'fit'    # F5 | split horizontal
+#bindkey "^[[25~" eval 'remove' 'focus up' 'fit'         # shift-F5 | close split
+#bindkey -k k6 eval 'resize -1' 'fit'                    # F6 | resize up
+#bindkey -k k7 eval 'resize +1' 'fit'                    # F7 | resize down
 
 
 bindkey "^[[5~" eval 'focus up'                         # fn-shift-up | Focus Up
