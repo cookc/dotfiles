@@ -1,0 +1,14 @@
+#!/bin/bash
+ 
+sudo -p "Need privileged admin password to run this: " whoami 1>/dev/null && {
+test "$1" || { echo "Usage: $0 <hostname to configure>"; sudo -k; exit 1; };
+sudo scutil --set ComputerName "$1.local";
+sudo scutil --set HostName "$1.local";
+sudo scutil --set LocalHostName "$1";
+sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.smb.server NetBIOSName -string "$1";
+sudo -k;
+exit 0; }
+      
+sudo -k;
+echo "Unable to sudo validly to an admin user. This did not complete successfully.";
+exit 1;
