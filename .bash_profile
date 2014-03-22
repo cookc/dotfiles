@@ -46,3 +46,4 @@ export ANT_HOME=/usr/share/ant
 export PATH=$PATH:$JAVA_HOME/bin
 export PATH=$PATH:~/tools/trails/bin/unix
 export CATALINA_HOME=/opt/tomcat/apache-tomcat-6.0.37
+export PYTHONPATH=/usr/local/lib/python2.7/site-packages:$PYTHONPATH
