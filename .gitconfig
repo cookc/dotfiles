@@ -4,7 +4,7 @@
 	# View the current working tree status using the short format
 	s = status -s
 	# Show the diff between the latest commit and the current state
-	d = !"git diff-index --quiet HEAD -- || clear; git --no-pager diff --patch-with-stat"
+	d = !"git diff-index --quiet HEAD -- || clear; git diff --patch-with-stat"
 	# `git di $number` shows the diff between the state `$number` revisions ago and the current state
 	di = !"d() { git diff --patch-with-stat HEAD~$1; }; git diff-index --quiet HEAD -- || clear; d"
 	# Pull in remote changes for the current repository and all its submodules
@@ -26,7 +26,7 @@
 
 [apply]
 	# Detect whitespace errors when applying a patch
-	whitespace = fix
+    # whitespace = fix
 
 [core]
 	# Use custom `.gitignore` and `.gitattributes`
@@ -34,7 +34,8 @@
 	attributesfile = ~/.gitattributes
 	# Treat spaces before tabs, lines that are indented with 8 or more spaces, and
 	# all kinds of trailing whitespace as an error
-	whitespace = space-before-tab,indent-with-non-tab,trailing-space
+    # whitespace = space-before-tab,indent-with-non-tab,trailing-space
+    editor = vim
 
 [color]
 	# Use colors in Git commands that are capable of colored output when
@@ -56,7 +57,7 @@
 [merge]
 	# Include summaries of merged commits in newly created merge commit messages
 	log = true
-    tool = kdiff3
+    tool = vimdiff 
     renamelimit = 2000
 
 # URL shorthands
@@ -80,5 +81,9 @@
 	email = ccook@palantir.com
 [credential]
 	helper = osxkeychain
-[mergetool "kdiff3"]
-	path = /Applications/kdiff3.app/Contents/MacOS/kdiff3
+
+
+[diff]
+	guitool = meld
+[difftool]
+	prompt = false

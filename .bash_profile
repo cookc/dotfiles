@@ -38,10 +38,14 @@ complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes Syste
 # If possible, add tab completion for many more commands
 [ -f /etc/bash_completion ] && source /etc/bash_completion
 
+[ -f ~/.git-completion.bash ] && source ~/.git-completion.bash
+
+[ -f ~/.git-flow-completion.bash ] && source ~/.git-flow-completion.bash
+
 #export JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Home
-export JAVA_HOME=`/System/Library/Frameworks/JavaVM.framework/Versions/Current/Commands/java_home`
-export JAVA_1_6_HOME=$JAVA_HOME
-export ANT_HOME=/usr/share/ant
+export JAVA_HOME=`/System/Library/Frameworks/JavaVM.framework/Versions/Current/Commands/java_home -v 1.7`
+export JAVA_1_6_HOME=`/System/Library/Frameworks/JavaVM.framework/Versions/Current/Commands/java_home -v 1.6`
+#export ANT_HOME=/usr/local/Cellar/ant/1.9.4
 export PATH=$PATH:$JAVA_HOME/bin
 export PATH=$PATH:~/tools/trails/bin/unix
 export CATALINA_HOME=/opt/tomcat/apache-tomcat-6.0.37
