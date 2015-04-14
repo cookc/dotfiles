@@ -24,6 +24,7 @@ alias qs41="cd /opt/palantir/qs/3.12.4.1/"
 alias qs42="cd /opt/palantir/qs/3.12.4.2/"
 alias e="open -n /eclipse/Eclipse.app"
 alias fn='find . -name '
+alias fnf='find . -name *.'
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
 	colorflag="--color"
@@ -167,16 +168,20 @@ alias sb='source ~/.bashrc'
 alias es='/opt/elasticsearch/elasticsearch-1.1.0/bin/elasticsearch'
 
 function gw() {
+    cmd='./gradlew'
     case "$1" in
-        c)      cmd='./gradlew clean';;
-        b)      cmd='./gradlew build';;
-        bo)     cmd='./gradlew build --offline';;
-        r)      cmd='./gradlew run';;
-        ro)     cmd='./gradlew run --offline';;
-        e)      cmd='./gradlew eclipse';;
-        eo)     cmd='./gradlew eclipse --offline';;
-        bp)     cmd='./gradlew clean buildPasInstaller';;
-        bpo)    cmd='./gradlew clean buildPasInstaller --offline';;
+        c)      cmd+=' clean';;
+        co)      cmd+=' clean --offline';;
+        b)      cmd+=' build';;
+        bo)      cmd+=' build --offline';;
+        r)      cmd+=' run';;
+        ro)      cmd+=' run --offline';;
+        p)      cmd+=' publish';;
+        po)      cmd+=' publish --offline';;
+        e)      cmd+=' eclipse';;
+        eo)      cmd+=' eclipse --offline';;
+        t)     cmd+=' clean buildPasInstaller';;
+        to)     cmd+=' clean buildPasInstaller --offline';;
     esac
     echo "$cmd"
     eval "$cmd"

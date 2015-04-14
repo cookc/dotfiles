@@ -101,7 +101,6 @@ set softtabstop=4
 set shiftwidth=4
 set expandtab
 set autoindent
-set smartindent
 
 " Allows you to save as SUDO when not sudo.
 cmap w!! w !sudo tee > /dev/null %

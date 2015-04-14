@@ -48,5 +48,5 @@ export JAVA_1_6_HOME=`/System/Library/Frameworks/JavaVM.framework/Versions/Curre
 #export ANT_HOME=/usr/local/Cellar/ant/1.9.4
 export PATH=$PATH:$JAVA_HOME/bin
 export PATH=$PATH:~/tools/trails/bin/unix
-export CATALINA_HOME=/opt/tomcat/apache-tomcat-6.0.37
+export CATALINA_HOME=/usr/local/Cellar/tomcat/8.0.15/libexec
 export PYTHONPATH=/usr/local/lib/python2.7/site-packages:$PYTHONPATH
