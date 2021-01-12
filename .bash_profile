@@ -38,15 +38,60 @@ complete -o "nospace" -W "Contacts Calendar Dock Finder Mail Safari iTunes Syste
 # If possible, add tab completion for many more commands
 [ -f /etc/bash_completion ] && source /etc/bash_completion
 
-[ -f ~/.git-completion.bash ] && source ~/.git-completion.bash
+# Git branch bash completion
+if [ -f ~/.git-completion.bash ]; then
+  . ~/.git-completion.bash
+  # Add git completion to aliases
+  __git_complete g __git_main
+fi
 
-[ -f ~/.git-flow-completion.bash ] && source ~/.git-flow-completion.bash
+# [ -f ~/.git-flow-completion.bash ] && source ~/.git-flow-completion.bash
 
-#export JAVA_HOME=/System/Library/Frameworks/JavaVM.framework/Versions/CurrentJDK/Home
-export JAVA_HOME=`/System/Library/Frameworks/JavaVM.framework/Versions/Current/Commands/java_home -v 1.7`
-#export JAVA_1_6_HOME=`/System/Library/Frameworks/JavaVM.framework/Versions/Current/Commands/java_home -v 1.6`
-#export ANT_HOME=/usr/local/Cellar/ant/1.9.4
+export JAVA_HOME=`/System/Library/Frameworks/JavaVM.framework/Versions/Current/Commands/java_home -v 1.8`
 export PATH=$PATH:$JAVA_HOME/bin
-export PATH=$PATH:~/tools/trails/bin/unix
 export CATALINA_HOME=/usr/local/Cellar/tomcat/8.0.15/libexec
-export PYTHONPATH=/usr/local/lib/python2.7/site-packages:$PYTHONPATH
+export NVM_DIR="$HOME/.nvm"
+source "/usr/local/opt/nvm/nvm.sh"
+export MAVEN_RESOLVER_URL="https://publish.artifactory.palantir.build/artifactory"
+export OPENSSL_CONF=
+
+export NPM_CONFIG_CAFILE="/Users/ccook/certs/ca-bundle.crt"
+alias yarn=/Volumes/git/nucleus/build/bootstrap/yarn/bin/yarn
+alias gfs="yarn gfs"
+
+function https-server() {
+  http-server --ssl --cert ~/certs/localhost.crt --key ~/certs/localhost.key
+}
+
+export EDITOR=vim
+eval "$(gh completion -s bash)"
+
+###-begin-gfs-completions-###
+#
+# yargs command completion script
+#
+# Installation: gfs completion >> ~/.bashrc
+#    or gfs completion >> ~/.bash_profile on OSX.
+#
+_yargs_completions()
+{
+    local cur_word args type_list
+
+    cur_word="${COMP_WORDS[COMP_CWORD]}"
+    args=("${COMP_WORDS[@]}")
+
+    # ask yargs to generate completions.
+    type_list=$(gfs --get-yargs-completions "${args[@]}")
+
+    COMPREPLY=( $(compgen -W "${type_list}" -- ${cur_word}) )
+
+    # if no match was found, fall back to filename completion
+    if [ ${#COMPREPLY[@]} -eq 0 ]; then
+      COMPREPLY=()
+    fi
+
+    return 0
+}
+complete -o default -F _yargs_completions gfs
+###-end-gfs-completions-###
+

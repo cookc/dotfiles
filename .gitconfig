@@ -1,30 +1,35 @@
+[include]
+    path = ~/.gitalias.txt
+[format]
+    pretty = %C(red)%h %cD %<(20)%C(magenta)%an %C(cyan)%d %C(yellow)%s
 [alias]
+    bl = branch -l
 	# View abbreviated SHA, description, and history graph of the latest 20 commits
-	l = log --pretty=oneline -n 20 --graph --abbrev-commit
+    #l = log --pretty=oneline -n 20 --graph --abbrev-commit
 	# View the current working tree status using the short format
-	s = status -s
+    #s = status -s
 	# Show the diff between the latest commit and the current state
-	d = !"git diff-index --quiet HEAD -- || clear; git diff --patch-with-stat"
+    #d = !"git diff-index --quiet HEAD -- || clear; git diff --patch-with-stat"
 	# `git di $number` shows the diff between the state `$number` revisions ago and the current state
-	di = !"d() { git diff --patch-with-stat HEAD~$1; }; git diff-index --quiet HEAD -- || clear; d"
+    #di = !"d() { git diff --patch-with-stat HEAD~$1; }; git diff-index --quiet HEAD -- || clear; d"
 	# Pull in remote changes for the current repository and all its submodules
-	p = !"git pull; git submodule foreach git pull origin master"
+    #p = !"git pull; git submodule foreach git pull origin master"
 	# Clone a repository including all submodules
-	c = clone --recursive
+    #c = clone --recursive
 	# Commit all changes
-	ca = !git add -A && git commit -av
+    #ca = !git add -A && git commit -av
 	# Switch to a branch, creating it if necessary
-	go = checkout -B
+    #go = checkout -B
 	# Show verbose output about tags, branches or remotes
-	tags = tag -l
-	branches = branch -a
-	remotes = remote -v
+    #tags = tag -l
+    #branches = branch -l
+    #remotes = remote -v
 	# Credit an author on the latest commit
-	credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
+    #credit = "!f() { git commit --amend --author \"$1 <$2>\" -C HEAD; }; f"
 	# Interactive rebase with the given number of latest commits
-    reb = "!r() { git rebase -i HEAD~$1; }; r"
+    #reb = "!r() { git rebase -i HEAD~$1; }; r"
     # Diff using the difftool
-    dt = difftool -y
+    #dt = difftool -y
 [apply]
 	# Detect whitespace errors when applying a patch
     # whitespace = fix
@@ -63,20 +68,21 @@
 
 # URL shorthands
 [url "git@github.com:"]
-	insteadOf = "gh:"
-	pushInsteadOf = "github:"
-	pushInsteadOf = "git://github.com/"
+	insteadOf = gh:
+	pushInsteadOf = github:
+	pushInsteadOf = git://github.com/
 [url "git://github.com/"]
-	insteadOf = "github:"
+	insteadOf = github:
 [url "git@gist.github.com:"]
-	insteadOf = "gst:"
-	pushInsteadOf = "gist:"
-	pushInsteadOf = "git://gist.github.com/"
+	insteadOf = gst:
+	pushInsteadOf = gist:
+	pushInsteadOf = git://gist.github.com/
 [url "git://gist.github.com/"]
-	insteadOf = "gist:"
+	insteadOf = gist:
 
 [push]
 	default = matching
+	followTags = true
 [user]
 	name = Chris Cook
 	email = ccook@palantir.com
@@ -95,7 +101,7 @@
     tool = sublimerge
 
 [mergetool "sublimerge"]
-    cmd = "/Applications/Sublime\\ Text.app/Contents/SharedSupport/bin/subl" -n --wait \"$REMOTE\" \"$BASE\" \"$LOCAL\" \"$MERGED\" --command \"sublimerge_diff_views\"
+    cmd = /Applications/Sublime\\ Text.app/Contents/SharedSupport/bin/subl -n --wait \"$REMOTE\" \"$BASE\" \"$LOCAL\" \"$MERGED\" --command \"sublimerge_diff_views\"
     trustExitCode = false
 
 [diff]
@@ -103,4 +109,14 @@
 
 [difftool "sublimerge"]
     prompt = false
-    cmd = "/Applications/Sublime\\ Text.app/Contents/SharedSupport/bin/subl" -n --wait \"$LOCAL\" \"$REMOTE\" --command \"sublimerge_diff_views {\\\"left_read_only\\\": true, \\\"right_read_only\\\": true}\"
+    cmd = /Applications/Sublime\\ Text.app/Contents/SharedSupport/bin/subl -n --wait \"$LOCAL\" \"$REMOTE\" --command \"sublimerge_diff_views {\\\"left_read_only\\\": true, \\\"right_read_only\\\": true}\"
+[filter "lfs"]
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+[pull]
+	rebase = preserve
+[filesystem "Azul Systems, Inc.|1.8.0_222|/dev/disk1s5"]
+	timestampResolution = 1001 milliseconds
+	minRacyThreshold = 0 nanoseconds

@@ -59,7 +59,7 @@ export BOLD
 export RESET
 
 function parse_git_dirty() {
-	[[ $(git status 2> /dev/null | tail -n1) != *"working directory clean"* ]] && echo "*"
+	[[ $(git status 2> /dev/null | tail -n1) != *"nothing to commit, working tree clean"* ]] && echo "*"
 }
 
 function parse_git_branch() {
@@ -85,7 +85,14 @@ function set_prompt() {
     else
         USER_COLOR="$WHITE_ON_BLUE"
     fi
-    PS1="$USER_COLOR\u@$HOST_COLOR\h$LAST_STATUS_COLOR\w$WHITE\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")$PURPLE\$(parse_git_branch)$WHITE $WHITE$ $RESET"
+    if [[ `pwd` == "/Volumes/git/pgdev" ]]; then
+        BRANCH="?"
+    else
+        BRANCH=$(parse_git_branch)
+    fi
+    PS1="$USER_COLOR\u@$HOST_COLOR\h$LAST_STATUS_COLOR\w$WHITE\$([[ -n \$(git branch 2> /dev/null) ]] && echo \" on \")$PURPLE$BRANCH$WHITE $WHITE$ $RESET"
     PS2="$WHITE→ $RESET"
 }
 export PROMPT_COMMAND=set_prompt
+
+export LS_COLORS=$LS_COLORS:'di=0;95:' 
