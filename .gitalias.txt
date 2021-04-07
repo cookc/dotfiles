@@ -1259,7 +1259,7 @@
     git branch --move \"$old_branch\" \"$new_branch\"; \
     git push origin \":$old_branch\" \"$new_branch\"; \
   };f"
-  
+
   topic-stash-create = "!f(){ \
     new_branch=\"$1\"; \
     git stash save -u; \
@@ -1272,6 +1272,52 @@
   tu = "!f(){ git topic-update; };f"
   tsu = "!f(){ git stash save -u && git topic-update && git stash pop; };f"
   tsc = "!f(){ git topic-stash-create $1; };f"
+
+
+  ## CUSTOM CACHED FUNCTIONS
+
+  cached-topic-base-branch-name = "!f(){ \
+    printf \"develop-cached\n\"; \
+  };f"
+
+  cached-topic-start = "!f(){ \
+    topic_branch=\"$1\"; \
+    git cached-topic-create \"$topic_branch\"; \
+    git cached-topic-push; \
+  };f"
+
+  cached-topic-create = "!f(){ \
+    topic_branch=\"$1\"; \
+    base_branch=$(git cached-topic-base-branch-name); \
+    git checkout \"$base_branch\"; git pull; \
+    git checkout -b \"$topic_branch\" \"$base_branch\"; \
+  };f"
+
+  cached-topic-update = "!f(){ \
+    topic_branch=$(git branch-name); \
+    base_branch=$(git cached-topic-base-branch-name); \
+    git checkout \"$base_branch\"; git pull; \
+    git checkout \"$topic_branch\"; \
+    git merge \"origin/$base_branch\"; \
+  };f"
+
+  cached-topic-push = "!f(){ \
+    topic_branch=$(git branch-name); \
+    git fetch && git push --set-upstream origin \"$topic_branch\"; \
+  };f"
+
+  cached-topic-stash-create = "!f(){ \
+    new_branch=\"$1\"; \
+    git stash save -u; \
+    git cached-topic-create \"$new_branch\"; \
+    git stash pop; \
+  };f"
+
+  ctp = "!f(){ git cached-topic-push; };f"
+  ctc = "!f(){ git cached-topic-create $1; };f"
+  ctu = "!f(){ git cached-topic-update; };f"
+  ctsu = "!f(){ git stash save -u && git cached-topic-update && git stash pop; };f"
+  ctsc = "!f(){ git cached-topic-stash-create $1; };f"
 
   ##########################################################################
 
